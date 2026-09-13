@@ -1,0 +1,67 @@
+openapi: 3.0.3
+info:
+  title: Payment History API
+  description: API for querying user payment history.
+  version: 1.0.0
+servers:
+  - url: https://api.cabsystem.com/v1
+paths:
+  /payments/history:
+    get:
+      summary: List payment transaction history
+      operationId: getPaymentHistory
+      tags:
+        - Payments
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: List of payment transactions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    example: 25
+                  page:
+                    type: integer
+                    example: 1
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        payment_id:
+                          type: string
+                          example: pay_99887766
+                        amount:
+                          type: number
+                          example: 150000.00
+                        payment_method:
+                          type: string
+                          example: MOMO
+                        status:
+                          type: string
+                          example: SUCCESS
+                        created_at:
+                          type: string
+                          format: date-time
+                          example: "2026-03-13T09:10:00Z"
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer

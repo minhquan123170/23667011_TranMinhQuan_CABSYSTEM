@@ -1,0 +1,49 @@
+openapi: 3.0.3
+info:
+  title: Payment Webhook API
+  description: API for receiving payment status callbacks from payment gateways.
+  version: 1.0.0
+servers:
+  - url: https://api.cabsystem.com/v1
+paths:
+  /payments/webhook:
+    post:
+      summary: Payment gateway webhook callback
+      operationId: handlePaymentWebhook
+      tags:
+        - Webhooks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - payment_id
+                - gateway_transaction_id
+                - status
+                - signature
+              properties:
+                payment_id:
+                  type: string
+                  example: pay_99887766
+                gateway_transaction_id:
+                  type: string
+                  example: mmo_tx_8833910
+                status:
+                  type: string
+                  example: SUCCESS
+                signature:
+                  type: string
+                  example: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+      responses:
+        '200':
+          description: Webhook processed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  received:
+                    type: boolean
+                    example: true

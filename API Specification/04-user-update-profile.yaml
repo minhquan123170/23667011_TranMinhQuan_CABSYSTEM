@@ -1,0 +1,53 @@
+openapi: 3.0.3
+info:
+  title: Update User Profile API
+  description: API for updating user profile details.
+  version: 1.0.0
+servers:
+  - url: https://api.cabsystem.com/v1
+paths:
+  /users/profile:
+    put:
+      summary: Update user profile information
+      operationId: updateUserProfile
+      tags:
+        - User Profile
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                full_name:
+                  type: string
+                  example: Tran Minh Quan Updated
+                phone_number:
+                  type: string
+                  example: "+84987654321"
+                address:
+                  type: string
+                  example: Ho Chi Minh City, Vietnam
+      responses:
+        '200':
+          description: Profile updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Profile updated successfully
+        '401':
+          description: Unauthorized
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer

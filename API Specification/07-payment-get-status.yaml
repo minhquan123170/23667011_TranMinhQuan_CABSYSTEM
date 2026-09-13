@@ -1,0 +1,53 @@
+openapi: 3.0.3
+info:
+  title: Get Payment Status API
+  description: API for checking payment status.
+  version: 1.0.0
+servers:
+  - url: https://api.cabsystem.com/v1
+paths:
+  /payments/{payment_id}/status:
+    get:
+      summary: Get current payment status
+      operationId: getPaymentStatus
+      tags:
+        - Payments
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: payment_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: pay_99887766
+      responses:
+        '200':
+          description: Payment status details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payment_id:
+                    type: string
+                    example: pay_99887766
+                  amount:
+                    type: number
+                    example: 150000.00
+                  currency:
+                    type: string
+                    example: VND
+                  status:
+                    type: string
+                    enum: [PENDING, SUCCESS, FAILED, CANCELLED]
+                    example: SUCCESS
+                  paid_at:
+                    type: string
+                    format: date-time
+                    example: "2026-03-13T09:15:22Z"
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer

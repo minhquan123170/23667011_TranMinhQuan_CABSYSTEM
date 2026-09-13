@@ -1,0 +1,57 @@
+openapi: 3.0.3
+info:
+  title: Payment Refund API
+  description: API for processing payment refund requests.
+  version: 1.0.0
+servers:
+  - url: https://api.cabsystem.com/v1
+paths:
+  /payments/refund:
+    post:
+      summary: Request a refund
+      operationId: refundPayment
+      tags:
+        - Refunds
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - payment_id
+                - reason
+              properties:
+                payment_id:
+                  type: string
+                  example: pay_99887766
+                refund_amount:
+                  type: number
+                  example: 150000.00
+                reason:
+                  type: string
+                  example: Ride cancelled by driver
+      responses:
+        '200':
+          description: Refund process initiated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  refund_id:
+                    type: string
+                    example: ref_11223344
+                  status:
+                    type: string
+                    example: PROCESSING
+                  estimated_days:
+                    type: integer
+                    example: 3
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer

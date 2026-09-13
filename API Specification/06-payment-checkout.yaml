@@ -1,0 +1,64 @@
+openapi: 3.0.3
+info:
+  title: Create Payment Checkout API
+  description: API for initiating trip payments.
+  version: 1.0.0
+servers:
+  - url: https://api.cabsystem.com/v1
+paths:
+  /payments/checkout:
+    post:
+      summary: Create a new payment transaction
+      operationId: createPayment
+      tags:
+        - Payments
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - booking_id
+                - amount
+                - currency
+                - payment_method
+              properties:
+                booking_id:
+                  type: string
+                  example: bk_10928374
+                amount:
+                  type: number
+                  format: double
+                  example: 150000.00
+                currency:
+                  type: string
+                  example: VND
+                payment_method:
+                  type: string
+                  enum: [CREDIT_CARD, MOMO, ZALOPAY, BANK_TRANSFER]
+                  example: MOMO
+      responses:
+        '201':
+          description: Payment initiated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payment_id:
+                    type: string
+                    example: pay_99887766
+                  payment_url:
+                    type: string
+                    example: https://payment-gateway.example.com/pay/pay_99887766
+                  status:
+                    type: string
+                    example: PENDING
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer

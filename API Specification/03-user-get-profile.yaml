@@ -1,0 +1,48 @@
+openapi: 3.0.3
+info:
+  title: Get User Profile API
+  description: API for retrieving user profile information.
+  version: 1.0.0
+servers:
+  - url: https://api.cabsystem.com/v1
+paths:
+  /users/profile:
+    get:
+      summary: Get authenticated user profile details
+      operationId: getUserProfile
+      tags:
+        - User Profile
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: usr_8f9a2b1c
+                  username:
+                    type: string
+                    example: tranminhquan
+                  email:
+                    type: string
+                    example: quan.tm@example.com
+                  full_name:
+                    type: string
+                    example: Tran Minh Quan
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: "2026-03-10T08:30:00Z"
+        '401':
+          description: Unauthorized
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
